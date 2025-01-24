@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 178501207}
   - component: {fileID: 178501206}
   - component: {fileID: 178501205}
+  - component: {fileID: 178501208}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -307,6 +308,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &178501208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178501204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cfe49fb4b2da04fbafe43510872249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playBtn: {fileID: 1085646800}
 --- !u!1 &571861588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,7 +1014,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 734.9965, y: 412}
+  m_SizeDelta: {x: 569, y: Infinity}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1789784268
 MonoBehaviour:
@@ -1014,9 +1028,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c555d9e9908124b62a136b7264b8be9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundImage: {fileID: 1789784269}
-  rt: {fileID: 1789784267}
-  ratio: 1.783972
 --- !u!114 &1789784269
 MonoBehaviour:
   m_ObjectHideFlags: 0
