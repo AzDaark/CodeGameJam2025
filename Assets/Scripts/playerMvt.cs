@@ -76,4 +76,23 @@ public class CarController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * transitionSpeed);
 
     }
+    void OnCollisionEnter(Collision collision)
+    {
+        // Vérifier si l'objet touché est un obstacle ou un objet auquel vous souhaitez réagir
+        if (collision.gameObject.CompareTag("Obstacle"))  // Assurez-vous que l'objet a bien le tag "Obstacle"
+        {
+            // Afficher un message de fin de jeu
+            Debug.Log("Game Over!");
+
+            // Arrêter le jeu (pause)
+            Time.timeScale = 0f;  // Le temps s'arrête, simulant la fin du jeu
+
+            // Ou vous pouvez charger une scène de fin de jeu
+            // UnityEngine.SceneManagement.SceneManager.LoadScene("GameOverScene");
+
+            // Si vous voulez simplement détruire la voiture
+            // Destroy(gameObject);  // Détruire la voiture
+        }
+    }
+
 }
