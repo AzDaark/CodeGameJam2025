@@ -1,6 +1,5 @@
 # Opressing
 
-gtfufguy
 
 ## Getting started
 
