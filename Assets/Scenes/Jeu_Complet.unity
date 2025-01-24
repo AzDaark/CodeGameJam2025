@@ -362,7 +362,7 @@ Transform:
   m_GameObject: {fileID: 557261280}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -1.32, y: 2.6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -393,7 +393,7 @@ Transform:
   m_GameObject: {fileID: 599539122}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2, y: 6, z: 0}
+  m_LocalPosition: {x: -0.2, y: 11.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -436,6 +436,7 @@ MonoBehaviour:
   - {fileID: 913358359}
   - {fileID: 599539123}
   - {fileID: 1181893713}
+  gameOver: 0
 --- !u!4 &748119399
 Transform:
   m_ObjectHideFlags: 0
@@ -476,7 +477,7 @@ Transform:
   m_GameObject: {fileID: 913358358}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.83, y: 6, z: 0}
+  m_LocalPosition: {x: -2.1, y: 11.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -540,7 +541,7 @@ Transform:
   m_GameObject: {fileID: 1181893712}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.14, y: 6, z: 0}
+  m_LocalPosition: {x: 1.69, y: 11.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -624,7 +625,7 @@ Transform:
   m_GameObject: {fileID: 1345935501}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.03, y: -0.01, z: 0}
+  m_LocalPosition: {x: -1.37, y: 2.61, z: 0}
   m_LocalScale: {x: 3.5708869, y: 3.2436, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -825,7 +826,7 @@ Transform:
   m_GameObject: {fileID: 1899427985}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.35, y: 0, z: 0}
+  m_LocalPosition: {x: -0.05, y: 3.21, z: 0}
   m_LocalScale: {x: 7.8500004, y: 10.769231, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -880,6 +881,7 @@ MonoBehaviour:
   - {fileID: 913358359}
   - {fileID: 599539123}
   - {fileID: 1181893713}
+  gameOver: 0
 --- !u!4 &2022958181
 Transform:
   m_ObjectHideFlags: 0
@@ -1153,10 +1155,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3efb98455186824438538b410a729f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laneWidth: 3
+  laneWidth: 2
   currentLane: 1
   transitionSpeed: 10
   laneChangeSound: {fileID: 0}
+  gameOverUI: {fileID: 0}
+  gameOver: 0
+  lateralForce: 100000
+  upwardForce: 300000
 --- !u!50 &2035229032
 Rigidbody2D:
   serializedVersion: 4
@@ -1245,7 +1251,7 @@ Transform:
   m_GameObject: {fileID: 2035229028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.32, y: -3.57, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.354, y: 0.354, z: 0.708}
   m_ConstrainProportionsScale: 1
   m_Children: []
