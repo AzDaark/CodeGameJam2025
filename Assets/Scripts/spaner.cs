@@ -1,30 +1,38 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class spaner : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
-    [SerializeField] GameObject[] Prefab;
-    [SerializeField] float secondSpawn = 0.5f;
-    [SerializeField] float minTras;
-    [SerializeField] float maxTras;
+    [SerializeField] GameObject[] Prefab; // Tableau des objets à instancier
+    [SerializeField] float minSpawnInterval = 0.2f; // Intervalle minimum entre les spawns
+    [SerializeField] float maxSpawnInterval = 1f; // Intervalle maximum entre les spawns
+
+    [SerializeField] Transform[] spawnPoints; // Trois positions définissant les voies
 
     void Start()
     {
         StartCoroutine(FruitSpawn());
     }
 
-
-        IEnumerator FruitSpawn()
+    IEnumerator FruitSpawn()
+    {
+        while (true)
         {
-            while(true)
-            {
-                var wanted = Random.Range(minTras, maxTras);
-                var position = new Vector3(wanted, transform.position.y);
-                GameObject gameObject = Instantiate(Prefab[Random.Range(0, Prefab.Length)], 
-                    position, Quaternion.identity);
-                yield return new WaitForSeconds(secondSpawn);
-                Destroy(gameObject, 5f);
-            }
+            // Choisir un spawner (voie) aléatoire parmi les spawnPoints
+            int spawnerIndex = Random.Range(0, spawnPoints.Length);
+
+            // Choisir un prefab aléatoire parmi les objets dans Prefab
+            GameObject prefabToSpawn = Prefab[Random.Range(0, Prefab.Length)];
+
+            // Instancier l'objet à la position du spawner choisi
+            GameObject spawnedObject = Instantiate(prefabToSpawn, spawnPoints[spawnerIndex].position, Quaternion.identity);
+
+            // Détruire l'objet après 5 secondes
+            Destroy(spawnedObject, 5f);
+
+            // Attendre un intervalle aléatoire avant de recommencer
+            float interval = Random.Range(minSpawnInterval, maxSpawnInterval);
+            yield return new WaitForSeconds(interval);
         }
+    }
 }

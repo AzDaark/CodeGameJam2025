@@ -4,7 +4,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class CarController : MonoBehaviour
 {
-    public float laneWidth = 3.0f; // Largeur entre les voies
+    public float laneWidth = 4.5f; // Largeur entre les voies
     public int currentLane = 1; // Voie actuelle (0 = gauche, 1 = centre, 2 = droite)
     public float transitionSpeed = 6.0f; // Vitesse de transition
     private Vector3 targetPosition; // Position cible
