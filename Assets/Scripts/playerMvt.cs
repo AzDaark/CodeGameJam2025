@@ -19,11 +19,11 @@ public class NewBehaviourScript : MonoBehaviour
         
         if (x < 0f )
         {
-            rb.velocity = new Vector2(rb.velocity.x - speed, rb.velocity.y); // assigner la position du joueur 
+            rb.velocity = new Vector2(rb.velocity.x - speed*Time.deltaTime, rb.velocity.y); // assigner la position du joueur 
         }
         else if(x > 0f )
         {
-            rb.velocity = new Vector2(rb.velocity.x + speed, rb.velocity.y );// assigner la position du joueur 
+            rb.velocity = new Vector2(rb.velocity.x + speed * Time.deltaTime, rb.velocity.y );// assigner la position du joueur 
         }
     }
 }
