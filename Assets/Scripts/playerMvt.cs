@@ -18,11 +18,18 @@ public class CarController : MonoBehaviour
     public float lateralForce = 100000f;  // Force appliquée sur les côtés aux obstacles
     public float upwardForce = 300000f;   // Force verticale pour projeter les objets
 
+    public TextMeshProUGUI timerText;  // Référence au texte pour le timer
+    public TextMeshProUGUI scoreText; // Référence au texte pour le score
+
+    [SerializeField] int score;
+    [SerializeField] float timer;
+
     void Start()
     {
         // Initialise la position et la rotation cibles
         targetPosition = transform.position;
         targetRotation = transform.rotation;
+        score = 0;
         if (laneChangeSound == null)
         {
             laneChangeSound = GetComponent<AudioSource>();
@@ -137,4 +144,8 @@ public class CarController : MonoBehaviour
             obstacleRigidbody.AddForce(forceDirection.normalized * lateralForce * 1000f);
         }
     }
+
+    
+
+
 }
