@@ -1,49 +1,20 @@
-
-/*
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
-
-public class NewBehaviourScript : MonoBehaviour
-{
-    Rigidbody2D rb;
-    [SerializeField] float speed;
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
-    
-    void Update()
-    {
-        float x = Input.GetAxisRaw("Horizontal"); // recuperer quand le joueur appui sur les touches gauche et droite
-        
-        if (x < 0f )
-        {
-            rb.velocity = new Vector2(rb.velocity.x - speed*Time.deltaTime, rb.velocity.y); // assigner la position du joueur 
-        }
-        else if(x > 0f )
-        {
-            rb.velocity = new Vector2(rb.velocity.x + speed * Time.deltaTime, rb.velocity.y );// assigner la position du joueur 
-        }
-    }
-}
-*/
 using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
-    public float laneWidth = 2.0f; // Largeur entre les voies
-    public int currentLane = 1; // Voie actuelle : 0 = gauche, 1 = milieu, 2 = droite
-    public float transitionSpeed = 10f; // Vitesse de transition entre les voies
+    public float laneWidth = 3.0f; // Largeur entre les voies
+    public int currentLane = 1; // Voie actuelle (0 = gauche, 1 = centre, 2 = droite)
+    public float transitionSpeed = 6.0f; // Vitesse de transition
+    private Vector3 targetPosition; // Position cible
 
-    private Vector3 targetPosition; // Position cible de la voiture
+    private Quaternion targetRotation; // Rotation cible
+    private float tiltAngle = 70f; // Angle d'inclinaison lors du changement de voie
 
     void Start()
     {
-        // Initialise la position cible au début
+        // Initialise la position et la rotation cibles
         targetPosition = transform.position;
+        targetRotation = transform.rotation;
     }
 
     void Update()
@@ -54,23 +25,32 @@ public class CarController : MonoBehaviour
 
     void HandleInput()
     {
-        // Vérifie si une touche fléchée est pressée
+        // Vérifie les touches pour changer de voie
         if (Input.GetKeyDown(KeyCode.LeftArrow) && currentLane > 0)
         {
-            currentLane--; // Déplace vers la voie de gauche
+            currentLane--; // Déplace à gauche
+            targetRotation = Quaternion.Euler(0, 0, tiltAngle); // Incline à gauche
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) && currentLane < 2)
         {
-            currentLane++; // Déplace vers la voie de droite
+            currentLane++; // Déplace à droite
+            targetRotation = Quaternion.Euler(0, 0, -tiltAngle); // Incline à droite
+        }
+        else
+        {
+            targetRotation = Quaternion.Euler(0, 0, 0); // Retour à la position normale
         }
 
-        // Calcule la position cible selon la voie actuelle
+        // Met à jour la position cible
         targetPosition = new Vector3(currentLane * laneWidth - laneWidth, transform.position.y, transform.position.z);
     }
 
     void MoveToTargetLane()
     {
-        // Déplace la voiture progressivement vers la position cible
+        // Déplacement progressif vers la position cible
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * transitionSpeed);
+
+        // Rotation progressive vers la rotation cible
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * transitionSpeed);
     }
 }
