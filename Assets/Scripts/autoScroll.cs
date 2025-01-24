@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class auto_Scroll : MonoBehaviour
 {
-    public float speed;
+    private float _speed=1f;
     Vector2 offset;
     
 
     // Update is called once per frame
     private void Update()
     {
-        offset = new Vector2(0,Time.time * speed) ;
+        offset = new Vector2(0,Time.time * _speed) ;
         GetComponent<Renderer>().material.mainTextureOffset = offset;
     }
 }
