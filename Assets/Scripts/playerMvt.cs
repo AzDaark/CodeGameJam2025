@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class CarController : MonoBehaviour
 {
@@ -14,12 +13,16 @@ public class CarController : MonoBehaviour
     private Quaternion targetRotation; // Rotation cible
     private float tiltAngle = 70f; // Angle d'inclinaison lors du changement de voie
 
+    public GameObject gameOverUI;  // Le panneau de fin de jeu
+    public bool gameOver = false;  // État du jeu
+    public float lateralForce = 100000f;  // Force appliquée sur les côtés aux obstacles
+    public float upwardForce = 300000f;   // Force verticale pour projeter les objets
+
     void Start()
     {
         // Initialise la position et la rotation cibles
         targetPosition = transform.position;
         targetRotation = transform.rotation;
-        // Vérifie si l'AudioSource est assignée
         if (laneChangeSound == null)
         {
             laneChangeSound = GetComponent<AudioSource>();
@@ -28,8 +31,11 @@ public class CarController : MonoBehaviour
 
     void Update()
     {
-        HandleInput();
-        MoveToTargetLane();
+        if (!gameOver) // Ne pas gérer les entrées si le jeu est terminé
+        {
+            HandleInput();
+            MoveToTargetLane();
+        }
     }
 
     void HandleInput()
@@ -55,44 +61,80 @@ public class CarController : MonoBehaviour
         // Met à jour la position cible
         targetPosition = new Vector3(currentLane * laneWidth - laneWidth, transform.position.y, transform.position.z);
     }
-    
+
     void TriggerLaneChangeSound()
     {
-        // Si le son est déjà en cours, arrête-le avant de rejouer
         if (laneChangeSound.isPlaying)
         {
             laneChangeSound.Stop();
         }
-
         laneChangeSound.Play(); // Joue le son
     }
-    
+
     void MoveToTargetLane()
     {
         // Déplacement progressif vers la position cible
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * transitionSpeed);
-
-        // Rotation progressive vers la rotation cible
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * transitionSpeed);
-
     }
+
     void OnCollisionEnter(Collision collision)
     {
-        // Vérifier si l'objet touché est un obstacle ou un objet auquel vous souhaitez réagir
-        if (collision.gameObject.CompareTag("Obstacle"))  // Assurez-vous que l'objet a bien le tag "Obstacle"
+        if (collision.gameObject.CompareTag("obstacle"))
         {
-            // Afficher un message de fin de jeu
-            Debug.Log("Game Over!");
+            // Obtenez le point de contact principal
+            ContactPoint contact = collision.contacts[0];
 
-            // Arrêter le jeu (pause)
-            Time.timeScale = 0f;  // Le temps s'arrête, simulant la fin du jeu
+            // Calculez la position relative du contact par rapport au centre de la voiture
+            Vector3 localPoint = transform.InverseTransformPoint(contact.point);
 
-            // Ou vous pouvez charger une scène de fin de jeu
-            // UnityEngine.SceneManagement.SceneManager.LoadScene("GameOverScene");
-
-            // Si vous voulez simplement détruire la voiture
-            // Destroy(gameObject);  // Détruire la voiture
+            if (localPoint.z > 0) // Collision frontale
+            {
+                HandleFrontCollision();
+            }
+            else // Collision latérale
+            {
+                HandleSideCollision(collision);
+            }
         }
     }
 
+    void HandleFrontCollision()
+    {
+        if (gameOver) return;
+
+        Debug.Log("Game Over!");
+
+        Time.timeScale = 0f;
+
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(true);
+        }
+
+        gameOver = true;
+      
+    }
+
+    void HandleSideCollision(Collision collision)
+    {
+        Debug.Log("Collision latérale détectée!");
+
+        // Vérifiez si l'obstacle a un Rigidbody pour lui appliquer une force
+        Rigidbody obstacleRigidbody = collision.gameObject.GetComponent<Rigidbody>();
+
+        if (obstacleRigidbody != null)
+        {
+            // Appliquer une force latérale et verticale pour projeter l'objet
+            Vector3 forceDirection = (collision.contacts[0].point.x > transform.position.x)
+                ? Vector3.right
+                : Vector3.left;
+
+            // Ajoutez une composante verticale pour que l'obstacle soit projeté en l'air
+            forceDirection += Vector3.up * upwardForce;
+
+            // Appliquer la force totale
+            obstacleRigidbody.AddForce(forceDirection.normalized * lateralForce * 1000f);
+        }
+    }
 }

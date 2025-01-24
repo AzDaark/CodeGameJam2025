@@ -9,9 +9,12 @@ public class Spawner : MonoBehaviour
 
     [SerializeField] Transform[] spawnPoints; // Trois positions définissant les voies
 
+    public bool gameOver;
+
     void Start()
     {
-        StartCoroutine(FruitSpawn());
+        if (!gameOver)
+            StartCoroutine(FruitSpawn());
     }
 
     IEnumerator FruitSpawn()
