@@ -5,13 +5,19 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using TMPro;
 
 public class killZone : MonoBehaviour
 {
     [SerializeField] Animator anim;
     [SerializeField] TMPro.TextMeshProUGUI m_TextMeshPro;
+    [SerializeField] TMP_Text scoreText;
+    [SerializeField] Image m_Image;
     [SerializeField] Button reloadBtn;
     [SerializeField] Button quitBtn;
+    [SerializeField] AudioSource gameOver_AudioSource;
+    [SerializeField] AudioClip gameOver_AudioClip;
+    float nulle = 0;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -24,7 +30,9 @@ public class killZone : MonoBehaviour
     void PauseGame()
     {
         Time.timeScale = 0;
-        m_TextMeshPro.fontSize = 36;
+        scoreText.text = nulle.ToString();
+       m_Image.enabled = true;
+        gameOver_AudioSource.PlayOneShot(gameOver_AudioClip, 0.7f);
         reloadBtn.transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
         quitBtn.transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
         reloadBtn.onClick.AddListener(TaskOnClick);
