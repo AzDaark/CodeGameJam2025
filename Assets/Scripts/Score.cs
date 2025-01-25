@@ -7,7 +7,7 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class Score : MonoBehaviour
 {
-    public static int scoreValue = 0;
+    public int scoreValue = 0;
     [SerializeField]    TMP_Text scoreText;
     private float timer;
     
@@ -29,10 +29,10 @@ public class Score : MonoBehaviour
         }
         scoreText.text = scoreValue.ToString();
 
-        if(Time.timeScale == 0f )
+        /*if(Time.timeScale == 0f )
         {
             scoreValue = 0;
-        }
+        }*/
 
     }
     private void IncrementScore()
